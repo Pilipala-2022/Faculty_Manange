@@ -34,27 +34,107 @@ void Manage::showMenu()
 	printf("**********************7.退出系统****************************\n");
 	printf("%*c", 30, 0);
 	printf("************************************************************\n\n\n");
+	printf("%*c", 30, 0);
+	printf("**********************(输入序号选择操作)************************\n");
 
 }
 
-void Manage::errorChoice(int fg)
+void Manage::errorChoice()
 {
 	printf("0.错误输入\n");
+	system("pause");
+	exit(0);
 }
 
 void Manage::showAllMessage()
 {
 	printf("1.显示教职工信息\n");
+	//按任意键后清屏
+	system("pause");
+	system("cls");
 }
 
 void Manage::addMessage()
 {
-	printf("2.增加教职工信息\n");
+	int add_num = 0;
+	printf("请输入要添加的人数");
+	//scanf_s("%d", &add_num);
+	//printf("%d", add_num);
+	std::cin >> add_num;
+	if (add_num >= 0) {
+		printf("添加人数为%d\n", add_num);
+
+		// 计算添加以后的人数
+		int new_num = this->_attendance + add_num;
+
+		// 根据系统内新的人数开辟空间
+		People** new_space = new People * [new_num];
+
+		//先将原来的数据拷贝到新空间
+		if (this->_peopleArray != NULL) {
+			for (int i = 0; i < this->_attendance; i++) {
+				new_space[i] = this->_peopleArray[i];
+			}
+		}
+
+		// 添加新数据
+		for (int i = 0; i < add_num; i++) {
+
+			People* people = new People;
+
+			std::cout << "请输入第" << i + 1 << "位新职员的姓名" << std::endl;
+			std::cin >> people->_name;
+			std::cout << "请输入第" << i + 1 << "位新职员的性别" << std::endl;
+			std::cin >> people->_sex;
+			std::cout << "请输入第" << i + 1 << "位新职员的出生年月" << std::endl;
+			std::cin >> people->_birthday;
+			std::cout << "请输入第" << i + 1 << "位新职员的工作年月" << std::endl;
+			std::cin >> people->_workData;
+			std::cout << "请输入第" << i + 1 << "位新职员的学历" << std::endl;
+			std::cin >> people->_qualification;
+			std::cout << "请输入第" << i + 1 << "位新职员的职务" << std::endl;
+			std::cin >> people->_duty;
+			std::cout << "请输入第" << i + 1 << "位新职员的住址" << std::endl;
+			std::cin >> people->_address;
+			std::cout << "请输入第" << i + 1 << "位新职员的电话" << std::endl;
+			std::cin >> people->_directory;
+
+			//将信息保存到数组中
+			new_space[this->_attendance + i] = people;
+		}
+
+		// 释放原有空间
+		delete[] this->_peopleArray;
+
+		// 更改新空间指向
+		this->_peopleArray = new_space;
+
+		// 更新教职工人数
+		this->_attendance = new_num;
+
+		//更新文件标志
+		this->_isEmpty = false;
+
+		std::cout << "成功添加" << add_num << "名教职工信息" << std::endl;
+
+		// 保存数据
+		this->saveInfo();
+	}
+	else {
+		printf("输入数据错误\n");
+	}
+	//按任意键后 清屏回到上级目录
+	system("pause");
+	system("cls");
+
 }
 
 void Manage::deleteMessage()
 {
 	printf("3.删除教职工信息\n");
+		//按任意键后清屏
+	system("pause");
+	system("cls");
 }
 
 void Manage::findMessage()
@@ -75,4 +155,23 @@ void Manage::clearMessage()
 void Manage::exitSystem()
 {
 	printf("7.退出系统\n");
+}
+
+void Manage::saveInfo() {
+	std::ofstream ofs;
+	ofs.open(FILENAME, std::ios::out);
+
+	for (int i = 0; i < this->_attendance; i++) {
+
+		ofs
+			<< this->_peopleArray[i]->_name << "  "
+			<< this->_peopleArray[i]->_sex << "  "
+			<< this->_peopleArray[i]->_birthday << "  "
+			<< this->_peopleArray[i]->_workData << "  "
+			<< this->_peopleArray[i]->_qualification << "  "
+			<< this->_peopleArray[i]->_duty << "  "
+			<< this->_peopleArray[i]->_address << "  "
+			<< this->_peopleArray[i]->_directory << std::endl;
+	}
+	ofs.close();
 }

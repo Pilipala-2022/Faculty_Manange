@@ -4,37 +4,20 @@
 int main()
 {
     Manage manage_;
-    manage_.showMenu();
-    printf("%*c", 30, 0);
-    printf("**********************(输入序号选择操作)************************\n");
-    int flag;
+    
     while (true)
     {
+        // 显示菜单
+        manage_.showMenu();
 
+        int flag = 0;
         printf("选择你要进行的操作：");
-        scanf_s("%s", &flag);
-
-        //if (!Tool::isInt())
-        //    break;
-        //std::cout << "请输入您的选择" << std::endl;
-        //std::cin >> flag;
-
-        //std::cout << "flag = " << flag << std::endl;
-        //std::cout << "type(flag) = " << typeid(flag).name() << std::endl;
-
-        //if (!std::cin)
-        //{
-        //    std::cin.clear();
-        //    std::cin.get();
-        //}
-        //if (sizeof(flag) != sizeof(int))
-        //    break;
+        scanf_s("%d", &flag);
 
         switch (flag)
         {
         case 0:
-            manage_.errorChoice(flag);
-            break;
+            manage_.errorChoice();
         case 1:
             manage_.showAllMessage();
             break;

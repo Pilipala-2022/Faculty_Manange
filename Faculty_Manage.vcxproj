@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\manage.cpp" />
+    <ClCompile Include="Src\people.cpp" />
     <ClCompile Include="Src\tool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="people.h" />
     <ClInclude Include="Src\manage.h" />
     <ClInclude Include="Src\tool.h" />
   </ItemGroup>

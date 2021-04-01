@@ -48,7 +48,15 @@ void Manage::errorChoice()
 
 void Manage::showAllMessage()
 {
-	printf("1.显示教职工信息\n");
+	if (this ->_isEmpty) {
+		printf("记录为空");
+	}
+	else {
+		for (int i = 0; i < this->_attendance; i++)
+			//多态
+			this->_peopleArray[i]->show();
+	}
+
 	//按任意键后清屏
 	system("pause");
 	system("cls");

@@ -1,5 +1,6 @@
 #pragma once
 # include<string>
+#include<iostream>
 class People
 {
 public:
@@ -12,6 +13,6 @@ public:
 	std::string _address;	//סַ
 	std::string _directory;	//�绰
 
-	void test();
+	void show();
 };
 

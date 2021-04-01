@@ -33,7 +33,7 @@
     <ClInclude Include="Src\tool.h">
       <Filter>Src\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="people.h">
+    <ClInclude Include="Src\people.h">
       <Filter>Src\头文件</Filter>
     </ClInclude>
   </ItemGroup>

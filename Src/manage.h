@@ -43,6 +43,9 @@ private:
 
 	void saveInfo();
 
+	// 判断教职工是否存在
+	int inSearch(std::string name);
+
 
 };
 

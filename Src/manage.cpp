@@ -139,7 +139,37 @@ void Manage::addMessage()
 
 void Manage::deleteMessage()
 {
-	printf("3.删除教职工信息\n");
+	if (this->_isEmpty)
+	{
+		std::cout << "记录为空！" << std::endl;
+	}
+	else {
+		//按照教职工姓名删除
+		std::cout << "请输入想要删除教职工的编号：" << std::endl;
+		std::string name;
+		std::cin >> name;
+
+		int index = this->inSearch(name);
+
+		if (index != -1) //说明职工存在，并且要删除掉index位置上的职工
+		{
+
+			for (int i = index; i < this->_attendance - 1; i++)
+			{
+				//数据前移
+				this->_peopleArray[i] = this->_peopleArray[i + 1];
+			}
+			this->_attendance--; //更新数组中记录人员个数
+			//数据同步更新到文件中
+			this->saveInfo();
+
+			std::cout << "删除成功！" << std::endl;
+		}
+		else
+		{
+			std::cout << "删除失败，未找到该职工" << std::endl;
+		}
+	}
 		//按任意键后清屏
 	system("pause");
 	system("cls");
@@ -182,4 +212,22 @@ void Manage::saveInfo() {
 			<< this->_peopleArray[i]->_directory << std::endl;
 	}
 	ofs.close();
+}
+
+int Manage::inSearch(std::string name) {
+
+	int index = -1;
+
+	for (int i = 0; i < this->_attendance; i++)
+	{
+		if (this->_peopleArray[i]->_name == name)
+		{
+			//找到职工
+			index = i;
+
+			break;
+		}
+	}
+
+	return index;
 }

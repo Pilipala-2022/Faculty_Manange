@@ -377,7 +377,97 @@ void findMessage()
 
 void modMessage()
 {
-	printf("5.修改教职工信息\n");
+	if (_isEmpty)
+	{
+		std::cout << "文件不存在或记录为空！" << std::endl;
+	}
+	else {
+		std::cout << "请输入查找的方式：" << std::endl;
+		std::cout << "1、按姓名查找 " << std::endl;
+		std::cout << "2、按电话查找 " << std::endl;
+		std::cout << "3、按住址查找 " << std::endl;
+
+		int select = 0;
+		std::string data;
+		std::cin >> select;
+		if (select == 1) {
+			//按照教职工姓名查找
+			std::cout << "请输入需要修改的教职工的姓名：" << std::endl;
+			std::cin >> data;
+		}
+		else if (select == 2) {
+			//按照教职工电话查找
+			std::cout << "请输入需要修改的教职工的电话：" << std::endl;
+			std::cin >> data;
+		}
+		else if (select == 3) {
+			//按照教职工住址删除
+			std::cout << "请输入需要修改的教职工的地址：" << std::endl;
+			std::cin >> data;
+		}
+
+		int index = inSearch(select, data);
+
+		if (index != -1) {
+			std::cout << "请输入需要修改的信息" << std::endl;
+			std::cout << "1.姓名" << std::endl;
+			std::cout << "2.性别" << std::endl;
+			std::cout << "3.出生年月" << std::endl;
+			std::cout << "4.工作年月" << std::endl;
+			std::cout << "5.学历" << std::endl;
+			std::cout << "6.职务" << std::endl;
+			std::cout << "7.住址" << std::endl;
+			std::cout << "8.电话" << std::endl;
+
+			int choice;
+			std::string mod_data;
+			std::cin >> choice;
+			if (choice == 1) {
+				std::cout << "请输入修改后的姓名" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_name = mod_data;
+			}
+			else if (choice == 2) {
+				std::cout << "请输入修改后的性别" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_sex = mod_data;
+			}
+			else if (choice == 3) {
+				std::cout << "请输入修改后的出生年月" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_birthday = mod_data;
+			}
+			else if (choice == 4) {
+				std::cout << "请输入修改后的工作年月" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_workData = mod_data;
+			}
+			else if (choice == 5) {
+				std::cout << "请输入修改后的学历" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_qualification = mod_data;
+			}
+			else if (choice == 6) {
+				std::cout << "请输入修改后的职务" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_duty = mod_data;
+			}
+			else if (choice == 7) {
+				std::cout << "请输入修改后的住址" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_address = mod_data;
+			}
+			else if (choice == 8) {
+				std::cout << "请输入修改后的电话" << std::endl;
+				std::cin >> mod_data;
+				_peopleArray[index]->_directory = mod_data;
+			}
+		}
+
+	}
+	//按任意键后清屏
+	system("pause");
+	system("cls");
 }
 
 void clearMessage()

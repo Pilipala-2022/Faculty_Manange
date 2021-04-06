@@ -11,7 +11,7 @@ extern void modMessage();
 extern void clearMessage();
 extern void exitSystem();
 extern void saveInfo();
-extern int inSearch(std::string name);
+extern int inSearch(int selece, std::string data);
 extern void readData();
 
 int main()

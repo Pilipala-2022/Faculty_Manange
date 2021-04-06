@@ -28,7 +28,7 @@ bool _isEmpty;
 //};
 
 extern void saveInfo();
-extern int inSearch(std::string name);
+extern int inSearch(int select, std::string data);
 extern int getAttendance();
 extern void initPeople();
 
@@ -171,7 +171,7 @@ void showMenu()
 
 void errorChoice()
 {
-	printf("0.错误输入\n");
+	printf("错误输入\n");
 	system("pause");
 	exit(0);
 }
@@ -276,12 +276,31 @@ void deleteMessage()
 		std::cout << "记录为空！" << std::endl;
 	}
 	else {
-		//按照教职工姓名删除
-		std::cout << "请输入想要删除教职工的编号：" << std::endl;
-		std::string name;
-		std::cin >> name;
+		std::cout << "请输入查找的方式：" << std::endl;
+		std::cout << "1、按姓名查找 " << std::endl;
+		std::cout << "2、按电话查找 " << std::endl;
+		std::cout << "2、按住址查找 " << std::endl;
 
-		int index = inSearch(name);
+		int select = 0;
+		std::string data;
+		std::cin >> select;
+		if (select == 1) {
+			//按照教职工姓名删除
+			std::cout << "请输入想要删除教职工的编号：" << std::endl;
+			std::cin >> data;
+		}
+		else if (select == 2) {
+			//按照教职工电话删除
+			std::cout << "请输入想要删除教职工的电话：" << std::endl;
+			std::cin >> data;
+		}
+		else if (select == 2) {
+			//按照教职工住址删除
+			std::cout << "请输入想要删除教职工的地址：" << std::endl;
+			std::cin >> data;
+		}
+
+		int index = inSearch(select,data);
 
 		if (index != -1) //说明职工存在，并且要删除掉index位置上的职工
 		{
@@ -346,20 +365,49 @@ void saveInfo() {
 	ofs.close();
 }
 
-int inSearch(std::string name) {
+int inSearch(int select, std::string data) {
 
 	int index = -1;
 
-	for (int i = 0; i < _attendance; i++)
+	if (select == 1)
 	{
-		if (_peopleArray[i]->_name == name)
+		for (int i = 0; i < _attendance; i++)
 		{
-			//找到职工
-			index = i;
+			if (_peopleArray[i]->_name == data)
+			{
+				//找到职工
+				index = i;
 
-			break;
+				break;
+			}
 		}
 	}
+	else if (select == 2) {
+		for (int i = 0; i < _attendance; i++)
+		{
+			if (_peopleArray[i]->_directory == data)
+			{
+				//找到职工
+				index = i;
+
+				break;
+			}
+		}
+	}
+	else if (select == 3) {
+		for (int i = 0; i < _attendance; i++)
+		{
+			if (_peopleArray[i]->_address == data)
+			{
+				//找到职工
+				index = i;
+
+				break;
+			}
+		}
+	}
+
+
 
 	return index;
 }

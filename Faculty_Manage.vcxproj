@@ -23,7 +23,7 @@
     <ClCompile Include="Src\people.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="manage.h" />
+    <ClInclude Include="Src\manage.h" />
     <ClInclude Include="Src\people.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

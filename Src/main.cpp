@@ -1,4 +1,4 @@
-﻿#include"../manage.h"
+﻿#include"manage.h"
 
 
 extern void showMenu();
@@ -12,9 +12,12 @@ extern void clearMessage();
 extern void exitSystem();
 extern void saveInfo();
 extern int inSearch(std::string name);
+extern void readData();
 
 int main()
 {
+    //读取文件中的信息
+    readData();
     while (true)
     {
         // 显示菜单

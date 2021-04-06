@@ -1,7 +1,7 @@
 # include<stdio.h>
 #include<iostream>
 #include <fstream>
-# include"src/people.h"
+# include"people.h"
 
 #define FILENAME "manageFile.txt"
 
@@ -29,6 +29,115 @@ bool _isEmpty;
 
 extern void saveInfo();
 extern int inSearch(std::string name);
+extern int getAttendance();
+extern void initPeople();
+
+int getAttendance() {
+	std::ifstream ifs;
+	ifs.open(FILENAME, std::ios::in); //打开文件  读
+
+	std::string name;		//姓名
+	std::string sex;		//性别
+	std::string birthday;	//出生年月
+	std::string workData;	//工作年月
+	std::string qualification;	//学历
+	std::string duty;		//职务
+	std::string address;	//住址
+	std::string directory;	//电话
+
+	int num = 0;
+
+	while (ifs >> name && ifs >> sex && ifs >> birthday && ifs >> workData && ifs >> qualification && ifs >> duty && ifs >> address && ifs >> directory)
+	{
+		//统计人数变量
+		num++;
+	}
+
+	return num;
+}
+
+void initPeople() {
+	std::ifstream ifs;
+	ifs.open(FILENAME, std::ios::in);
+
+	std::string name;		//姓名
+	std::string sex;		//性别
+	std::string birthday;	//出生年月
+	std::string workData;	//工作年月
+	std::string qualification;	//学历
+	std::string duty;		//职务
+	std::string address;	//住址
+	std::string directory;	//电话
+
+	int index = 0;
+	while (ifs >> name && ifs >> sex && ifs >> birthday && ifs >> workData && ifs >> qualification && ifs >> duty && ifs >> address && ifs >> directory) {
+		People* people = new People;
+		people->_name = name;
+		people->_sex = sex;
+		people->_birthday = birthday;
+		people->_workData = workData;
+		people->_qualification = qualification;
+		people->_duty = duty;
+		people->_address = address;
+		people->_directory = directory;
+		_peopleArray[index] = people;
+		//std::cout << "name = " << name << std::endl;
+		index++;
+	}
+	//关闭文件
+	ifs.close();
+}
+
+void readData() {
+	//1、文件不存在
+
+	std::ifstream ifs;
+	ifs.open(FILENAME, std::ios::in); // 读文件
+
+	if (!ifs.is_open())
+	{
+		std::cout << "文件不存在" << std::endl;
+		//初始化属性
+		//初始化记录人数
+		_attendance = 0;
+		//初始化数组指针 
+		_peopleArray = NULL;
+		//初始化文件是否为空
+		_isEmpty = true;
+		ifs.close();
+		return;
+	}
+
+	//2、文件存在 数据为空
+	char ch;
+	ifs >> ch;
+	if (ifs.eof())
+	{
+		//文件为空
+		std::cout << "文件为空！" << std::endl;
+		//初始化记录人数
+		_attendance = 0;
+		//初始化数组指针 
+		_peopleArray = NULL;
+		//初始化文件是否为空
+		_isEmpty = true;
+		ifs.close();
+		return;
+	}
+
+	//3、文件存在，并且记录数据
+	int num = getAttendance();
+	std::cout << "职工人数为： " << num << std::endl;
+	_attendance = num;
+
+	//开辟空间
+	_peopleArray = new People * [_attendance];
+	//将文件中的数据 ，存到数组中
+	initPeople();
+
+
+
+}
 
 void showMenu()
 {
@@ -69,6 +178,7 @@ void errorChoice()
 
 void showAllMessage()
 {
+	//std::cout << "attendance = " << _attendance << std::endl;
 	if (_isEmpty) {
 		printf("记录为空");
 	}

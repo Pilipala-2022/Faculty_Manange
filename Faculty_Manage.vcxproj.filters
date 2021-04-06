@@ -24,7 +24,7 @@
     <ClInclude Include="Src\people.h">
       <Filter>Src\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="manage.h">
+    <ClInclude Include="Src\manage.h">
       <Filter>Src\头文件</Filter>
     </ClInclude>
   </ItemGroup>

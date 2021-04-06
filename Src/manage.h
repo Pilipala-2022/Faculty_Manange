@@ -472,12 +472,46 @@ void modMessage()
 
 void clearMessage()
 {
-	printf("6.清除所有信息\n");
+	std::cout << "确定清空？" << std::endl;
+	std::cout << "1、确定" << std::endl;
+	std::cout << "2、返回" << std::endl;
+
+	int select = 0;
+	std::cin >> select;
+
+	if (select == 1)
+	{
+		//清空文件
+		std::ofstream ofs(FILENAME, std::ios::trunc); // 删除文件后重新创建
+		ofs.close();
+
+		if (_peopleArray != NULL)
+		{
+			//删除堆区的每个职工对象
+			for (int i = 0; i < _attendance; i++)
+			{
+				delete _peopleArray;
+				_peopleArray = NULL;
+			}
+
+			//删除堆区数组指针
+			delete[] _peopleArray;
+			_peopleArray = NULL;
+			_attendance = 0;
+			_isEmpty = true;
+		}
+
+		std::cout << "清空成功！" << std::endl;
+	}
+
+	system("pause");
+	system("cls");
 }
 
 void exitSystem()
 {
-	printf("7.退出系统\n");
+	system("pause");
+	exit(0); // 退出程序
 }
 
 void saveInfo() {

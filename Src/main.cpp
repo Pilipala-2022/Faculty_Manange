@@ -29,24 +29,24 @@ int main()
 
         switch (flag)
         {
-        case 0:
+        case 0:     //异常退出
             errorChoice();
-        case 1:
+        case 1:     //显示所有信息
             showAllMessage();
             break;
-        case 2:
+        case 2:     //添加信息
             addMessage();
             break;
-        case 3:
+        case 3:     //删除
             deleteMessage();
             break;
-        case 4:
+        case 4:     //查找
             findMessage();
             break;
-        case 5:
+        case 5:     //修改
             modMessage();
             break;
-        case 6:
+        case 6:     //清空
             clearMessage();
             break;
         case 7:

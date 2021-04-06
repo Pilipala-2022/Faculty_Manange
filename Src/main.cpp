@@ -1,14 +1,24 @@
-﻿#include "manage.h"
-#include "tool.h"
+﻿#include"../manage.h"
+
+
+extern void showMenu();
+extern void errorChoice();
+extern void showAllMessage();
+extern void addMessage();
+extern void deleteMessage();
+extern void findMessage();
+extern void modMessage();
+extern void clearMessage();
+extern void exitSystem();
+extern void saveInfo();
+extern int inSearch(std::string name);
 
 int main()
 {
-    Manage manage_;
-    
     while (true)
     {
         // 显示菜单
-        manage_.showMenu();
+        showMenu();
 
         int flag = 0;
         printf("选择你要进行的操作：");
@@ -17,27 +27,27 @@ int main()
         switch (flag)
         {
         case 0:
-            manage_.errorChoice();
+            errorChoice();
         case 1:
-            manage_.showAllMessage();
+            showAllMessage();
             break;
         case 2:
-            manage_.addMessage();
+            addMessage();
             break;
         case 3:
-            manage_.deleteMessage();
+            deleteMessage();
             break;
         case 4:
-            manage_.findMessage();
+            findMessage();
             break;
         case 5:
-            manage_.modMessage();
+            modMessage();
             break;
         case 6:
-            manage_.clearMessage();
+            clearMessage();
             break;
         case 7:
-            manage_.exitSystem();
+            exitSystem();
             break;
         default:
             printf("输入错误，请重新输入\n");

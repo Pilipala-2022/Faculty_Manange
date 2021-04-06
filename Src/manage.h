@@ -1,51 +1,256 @@
-#pragma once
-# include <iostream>
+# include<stdio.h>
+#include<iostream>
 #include <fstream>
-# include"people.h"
+# include"src/people.h"
 
 #define FILENAME "manageFile.txt"
 
+// 系统中的人数
+int _attendance;
 
-class Manage
+// 职工指针
+People** _peopleArray;
+//PeopleData** _peopleArray;
+
+// 标志文件是否为空
+bool _isEmpty;
+
+//struct PeopleData
+//{
+//	std::string _name;		//姓名
+//	std::string _sex;		//性别
+//	std::string _birthday;	//出生年月
+//	std::string _workData;	//工作年月
+//	std::string _qualification;	//学历
+//	std::string _duty;		//职务
+//	std::string _address;	//住址
+//	std::string _directory;	//电话
+//};
+
+extern void saveInfo();
+extern int inSearch(std::string name);
+
+void showMenu()
 {
-public:
-	Manage();
+	// 显示菜单
+	printf("%*c", 30, 0);
+	printf("************************************************************\n");
+	printf("%*c", 30, 0);
+	printf("************************************************************\n");
+	printf("%*c", 30, 0);
+	printf("**********************教职工管理系统************************\n");
+	printf("%*c", 30, 0);
+	printf("**********************1.显示教职工信息**********************\n");
+	printf("%*c", 30, 0);
+	printf("**********************2.增加教职工信息**********************\n");
+	printf("%*c", 30, 0);
+	printf("**********************3.删除教职工信息**********************\n");
+	printf("%*c", 30, 0);
+	printf("**********************4.查找教职工信息**********************\n");
+	printf("%*c", 30, 0);
+	printf("**********************5.修改教职工信息**********************\n");
+	printf("%*c", 30, 0);
+	printf("**********************6.清除所有信息************************\n");
+	printf("%*c", 30, 0);
+	printf("**********************7.退出系统****************************\n");
+	printf("%*c", 30, 0);
+	printf("************************************************************\n\n\n");
+	printf("%*c", 30, 0);
+	printf("**********************(输入序号选择操作)************************\n");
 
-	~Manage();
+}
 
-	void showMenu();  
+void errorChoice()
+{
+	printf("0.错误输入\n");
+	system("pause");
+	exit(0);
+}
 
-	void errorChoice();     //0.错误输入
+void showAllMessage()
+{
+	if (_isEmpty) {
+		printf("记录为空");
+	}
+	else {
+		for (int i = 0; i < _attendance; i++)
 
-	void showAllMessage();  //1.显示教职工信息
+			_peopleArray[i]->show();
+	}
 
-	void addMessage();  //2.增加教职工信息
+	//按任意键后清屏
+	system("pause");
+	system("cls");
+}
 
-	void deleteMessage();  //3.删除教职工信息
+void addMessage()
+{
+	int add_num = 0;
+	printf("请输入要添加的人数");
+	//scanf_s("%d", &add_num);
+	//printf("%d", add_num);
+	std::cin >> add_num;
+	if (add_num >= 0) {
+		printf("添加人数为%d\n", add_num);
 
-	void findMessage();  //4.查找教职工信息
+		// 计算添加以后的人数
+		int new_num = _attendance + add_num;
 
-	void modMessage();  //5.修改教职工信息
+		// 根据系统内新的人数开辟空间
+		People** new_space = new People * [new_num];
+		//PeopleData** new_space = new PeopleData * [new_num];
 
-	void clearMessage();  //6.清除所有信息
+		//先将原来的数据拷贝到新空间
+		if (_peopleArray != NULL) {
+			for (int i = 0; i < _attendance; i++) {
+				new_space[i] = _peopleArray[i];
+			}
+		}
 
-	void exitSystem();  //7.退出系统
+		// 添加新数据
+		for (int i = 0; i < add_num; i++) {
 
-private:
-	// 系统中的人数
-	int _attendance;
+			People* people = new People;
 
-	// 职工指针
-	People** _peopleArray;
+			std::cout << "请输入第" << i + 1 << "位新职员的姓名" << std::endl;
+			std::cin >> people->_name;
+			std::cout << "请输入第" << i + 1 << "位新职员的性别" << std::endl;
+			std::cin >> people->_sex;
+			std::cout << "请输入第" << i + 1 << "位新职员的出生年月" << std::endl;
+			std::cin >> people->_birthday;
+			std::cout << "请输入第" << i + 1 << "位新职员的工作年月" << std::endl;
+			std::cin >> people->_workData;
+			std::cout << "请输入第" << i + 1 << "位新职员的学历" << std::endl;
+			std::cin >> people->_qualification;
+			std::cout << "请输入第" << i + 1 << "位新职员的职务" << std::endl;
+			std::cin >> people->_duty;
+			std::cout << "请输入第" << i + 1 << "位新职员的住址" << std::endl;
+			std::cin >> people->_address;
+			std::cout << "请输入第" << i + 1 << "位新职员的电话" << std::endl;
+			std::cin >> people->_directory;
 
-	// 标志文件是否为空
-	bool _isEmpty;
+			//将信息保存到数组中
+			new_space[_attendance + i] = people;
+		}
 
-	void saveInfo();
+		// 释放原有空间
+		delete[] _peopleArray;
 
-	// 判断教职工是否存在
-	int inSearch(std::string name);
+		// 更改新空间指向
+		_peopleArray = new_space;
 
+		// 更新教职工人数
+		_attendance = new_num;
 
-};
+		//更新文件标志
+		_isEmpty = false;
+
+		std::cout << "成功添加" << add_num << "名教职工信息" << std::endl;
+
+		// 保存数据
+		saveInfo();
+	}
+	else {
+		printf("输入数据错误\n");
+	}
+
+	system("pause");
+	system("cls");
+
+}
+
+void deleteMessage()
+{
+	if (_isEmpty)
+	{
+		std::cout << "记录为空！" << std::endl;
+	}
+	else {
+		//按照教职工姓名删除
+		std::cout << "请输入想要删除教职工的编号：" << std::endl;
+		std::string name;
+		std::cin >> name;
+
+		int index = inSearch(name);
+
+		if (index != -1) //说明职工存在，并且要删除掉index位置上的职工
+		{
+
+			for (int i = index; i < _attendance - 1; i++)
+			{
+				//数据前移
+				_peopleArray[i] = _peopleArray[i + 1];
+			}
+			_attendance--; //更新数组中记录人员个数
+			//数据同步更新到文件中
+			saveInfo();
+
+			std::cout << "删除成功！" << std::endl;
+		}
+		else
+		{
+			std::cout << "删除失败，未找到该职工" << std::endl;
+		}
+	}
+	//按任意键后清屏
+	system("pause");
+	system("cls");
+}
+
+void findMessage()
+{
+	printf("4.查找教职工信息\n");
+}
+
+void modMessage()
+{
+	printf("5.修改教职工信息\n");
+}
+
+void clearMessage()
+{
+	printf("6.清除所有信息\n");
+}
+
+void exitSystem()
+{
+	printf("7.退出系统\n");
+}
+
+void saveInfo() {
+	std::ofstream ofs;
+	ofs.open(FILENAME, std::ios::out);
+
+	for (int i = 0; i < _attendance; i++) {
+
+		ofs
+			<< _peopleArray[i]->_name << "  "
+			<< _peopleArray[i]->_sex << "  "
+			<< _peopleArray[i]->_birthday << "  "
+			<< _peopleArray[i]->_workData << "  "
+			<< _peopleArray[i]->_qualification << "  "
+			<< _peopleArray[i]->_duty << "  "
+			<< _peopleArray[i]->_address << "  "
+			<< _peopleArray[i]->_directory << std::endl;
+	}
+	ofs.close();
+}
+
+int inSearch(std::string name) {
+
+	int index = -1;
+
+	for (int i = 0; i < _attendance; i++)
+	{
+		if (_peopleArray[i]->_name == name)
+		{
+			//找到职工
+			index = i;
+
+			break;
+		}
+	}
+
+	return index;
+}
 

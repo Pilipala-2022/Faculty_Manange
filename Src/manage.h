@@ -286,7 +286,7 @@ void deleteMessage()
 		std::cin >> select;
 		if (select == 1) {
 			//按照教职工姓名删除
-			std::cout << "请输入想要删除教职工的编号：" << std::endl;
+			std::cout << "请输入想要删除教职工的姓名：" << std::endl;
 			std::cin >> data;
 		}
 		else if (select == 2) {
@@ -328,7 +328,51 @@ void deleteMessage()
 
 void findMessage()
 {
-	printf("4.查找教职工信息\n");
+	if (_isEmpty)
+	{
+		std::cout << "记录为空！" << std::endl;
+	}
+	else {
+		std::cout << "请输入查找的方式：" << std::endl;
+		std::cout << "1、按姓名查找 " << std::endl;
+		std::cout << "2、按电话查找 " << std::endl;
+		std::cout << "3、按住址查找 " << std::endl;
+
+		int select = 0;
+		std::string data;
+		std::cin >> select;
+		if (select == 1) {
+			//按照教职工姓名删除
+			std::cout << "请输入想要删除教职工的姓名：" << std::endl;
+			std::cin >> data;
+		}
+		else if (select == 2) {
+			//按照教职工电话删除
+			std::cout << "请输入想要删除教职工的电话：" << std::endl;
+			std::cin >> data;
+		}
+		else if (select == 3) {
+			//按照教职工住址删除
+			std::cout << "请输入想要删除教职工的地址：" << std::endl;
+			std::cin >> data;
+		}
+
+		int index = inSearch(select, data);
+
+		if (index != -1)
+		{
+			//找到职工
+			std::cout << "查找成功！该职工信息如下：" << std::endl;
+			_peopleArray[index]->show();
+		}
+		else
+		{
+			std::cout << "查找失败，查无此人" << std::endl;
+		}
+	}
+	//按任意键后清屏
+	system("pause");
+	system("cls");
 }
 
 void modMessage()

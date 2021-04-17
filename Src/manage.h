@@ -9,23 +9,11 @@
 int _attendance;
 
 // 职工指针
-People** _peopleArray;
-//PeopleData** _peopleArray;
+//People** _peopleArray;
+PeopleData** _peopleArray;
 
 // 标志文件是否为空
 bool _isEmpty;
-
-//struct PeopleData
-//{
-//	std::string _name;		//姓名
-//	std::string _sex;		//性别
-//	std::string _birthday;	//出生年月
-//	std::string _workData;	//工作年月
-//	std::string _qualification;	//学历
-//	std::string _duty;		//职务
-//	std::string _address;	//住址
-//	std::string _directory;	//电话
-//};
 
 extern void saveInfo();
 extern int inSearch(int select, std::string data);
@@ -71,7 +59,8 @@ void initPeople() {
 
 	int index = 0;
 	while (ifs >> name && ifs >> sex && ifs >> birthday && ifs >> workData && ifs >> qualification && ifs >> duty && ifs >> address && ifs >> directory) {
-		People* people = new People;
+		//People* people = new People;
+		PeopleData* people = new PeopleData;
 		people->_name = name;
 		people->_sex = sex;
 		people->_birthday = birthday;
@@ -131,7 +120,7 @@ void readData() {
 	_attendance = num;
 
 	//开辟空间
-	_peopleArray = new People * [_attendance];
+	_peopleArray = new PeopleData*[_attendance];
 	//将文件中的数据 ，存到数组中
 	initPeople();
 
@@ -183,9 +172,10 @@ void showAllMessage()
 		printf("记录为空");
 	}
 	else {
-		for (int i = 0; i < _attendance; i++)
+	for (int i = 0; i < _attendance; i++)
 
-			_peopleArray[i]->show();
+		//_peopleArray[i]->show();
+		show(_peopleArray[i]);
 	}
 
 	//按任意键后清屏
@@ -208,7 +198,8 @@ void addMessage()
 		int new_num = _attendance + add_num;
 
 		// 根据系统内新的人数开辟空间
-		People** new_space = new People * [new_num];
+		//People** new_space = new People * [new_num];
+		PeopleData** new_space = new PeopleData *[_attendance];
 		//PeopleData** new_space = new PeopleData * [new_num];
 
 		//先将原来的数据拷贝到新空间
@@ -221,7 +212,8 @@ void addMessage()
 		// 添加新数据
 		for (int i = 0; i < add_num; i++) {
 
-			People* people = new People;
+			//People* people = new People;
+			PeopleData *people = new PeopleData;
 
 			printf("请输入第%d位新职员的姓名", i+1);
 			std::cin >> people->_name;
@@ -250,7 +242,6 @@ void addMessage()
 			//将信息保存到数组中
 			new_space[_attendance + i] = people;
 		}
-
 		// 释放原有空间
 		delete[] _peopleArray;
 
@@ -354,17 +345,17 @@ void findMessage()
 		std::cin >> select;
 		if (select == 1) {
 			//按照教职工姓名删除
-			printf("请输入想要删除教职工的姓名：\n");
+			printf("请输入想要查找教职工的姓名：\n");
 			std::cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话删除
-			printf("请输入想要删除教职工的电话：\n");
+			printf("请输入想要查找教职工的电话：\n");
 			std::cin >> data;
 		}
 		else if (select == 3) {
 			//按照教职工住址删除
-			printf("请输入想要删除教职工的地址：\n");
+			printf("请输入想要查找教职工的地址：\n");
 			std::cin >> data;
 		}
 
@@ -374,7 +365,7 @@ void findMessage()
 		{
 			//找到职工
 			printf("查找成功！该职工信息如下：\n");
-			_peopleArray[index]->show();
+			show(_peopleArray[index]);
 		}
 		else
 		{
@@ -420,7 +411,7 @@ void modMessage()
 		int index = inSearch(select, data);
 
 		if (index != -1) {
-			printf("请输入需要修改的信息\n");
+			printf("请输入需要修改的信息（根据下列序号选择）\n");
 			printf("1.姓名\n");
 			printf("2.性别\n");
 			printf("3.出生年月\n");

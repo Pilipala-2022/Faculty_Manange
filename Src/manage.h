@@ -298,29 +298,26 @@ void deleteMessage()
 			printf("请输入想要删除教职工的地址：\n");
 			std::cin >> data;
 		}
-
-		int index = inSearch(select,data);
-
-		if (index != -1) //说明职工存在，并且要删除掉index位置上的职工
-		{
+		int index = inSearch(select, data);
+		if (index == -1) {
+			printf("删除失败，未找到该职工");
+		}
+		while (index != -1) {
 
 			for (int i = index; i < _attendance - 1; i++)
-			{
-				//数据前移
-				_peopleArray[i] = _peopleArray[i + 1];
-			}
+				{
+					//数据前移
+					_peopleArray[i] = _peopleArray[i + 1];
+				}
 			_attendance--; //更新数组中记录人员个数
 			//数据同步更新到文件中
 			saveInfo();
 
+			index = inSearch(select, data);
 			//std::cout << "删除成功！" << std::endl;
-			printf("删除成功！");
+			printf("删除成功！\n");
 		}
-		else
-		{
-			//std::cout << "删除失败，未找到该职工" << std::endl;
-			printf("删除失败，未找到该职工");
-		}
+
 	}
 	//按任意键后清屏
 	system("pause");
@@ -360,16 +357,16 @@ void findMessage()
 		}
 
 		int index = inSearch(select, data);
+		
+		if (index == -1)
+			printf("查找失败，查无此人\n");
 
-		if (index != -1)
-		{
+
+		while (index != -1) {
 			//找到职工
 			printf("查找成功！该职工信息如下：\n");
 			show(_peopleArray[index]);
-		}
-		else
-		{
-			printf("查找失败，查无此人\n");
+			index = inSearch(select, data);
 		}
 	}
 	//按任意键后清屏

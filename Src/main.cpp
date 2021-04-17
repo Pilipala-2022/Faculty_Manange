@@ -1,6 +1,5 @@
 ﻿#include"manage.h"
 
-
 extern void showMenu();
 extern void errorChoice();
 extern void showAllMessage();
@@ -11,7 +10,7 @@ extern void modMessage();
 extern void clearMessage();
 extern void exitSystem();
 extern void saveInfo();
-extern int inSearch();
+extern int inSearch(int select, std::string data);
 extern void readData();
 
 int main()

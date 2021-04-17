@@ -96,7 +96,7 @@ void readData() {
 
 	if (!ifs.is_open())
 	{
-		std::cout << "文件不存在" << std::endl;
+		printf("文件不存在\n");
 		//初始化属性
 		//初始化记录人数
 		_attendance = 0;
@@ -114,7 +114,7 @@ void readData() {
 	if (ifs.eof())
 	{
 		//文件为空
-		std::cout << "文件为空！" << std::endl;
+		printf("文件为空！\n");
 		//初始化记录人数
 		_attendance = 0;
 		//初始化数组指针 
@@ -127,7 +127,7 @@ void readData() {
 
 	//3、文件存在，并且记录数据
 	int num = getAttendance();
-	std::cout << "职工人数为： " << num << std::endl;
+	printf("职工人数为：%d", num);
 	_attendance = num;
 
 	//开辟空间
@@ -199,7 +199,8 @@ void addMessage()
 	printf("请输入要添加的人数");
 	//scanf_s("%d", &add_num);
 	//printf("%d", add_num);
-	std::cin >> add_num;
+	//std::cin >> add_num;
+	scanf_s("%d", &add_num);
 	if (add_num >= 0) {
 		printf("添加人数为%d\n", add_num);
 
@@ -222,21 +223,28 @@ void addMessage()
 
 			People* people = new People;
 
-			std::cout << "请输入第" << i + 1 << "位新职员的姓名" << std::endl;
+			printf("请输入第%d位新职员的姓名", i+1);
 			std::cin >> people->_name;
-			std::cout << "请输入第" << i + 1 << "位新职员的性别" << std::endl;
+
+			printf("请输入第%d位新职员的性别", i + 1);
 			std::cin >> people->_sex;
-			std::cout << "请输入第" << i + 1 << "位新职员的出生年月" << std::endl;
+
+			printf("请输入第%d位新职员的出生年月", i + 1);
 			std::cin >> people->_birthday;
-			std::cout << "请输入第" << i + 1 << "位新职员的工作年月" << std::endl;
+
+			printf("请输入第%d位新职员的工作年月", i + 1);
 			std::cin >> people->_workData;
-			std::cout << "请输入第" << i + 1 << "位新职员的学历" << std::endl;
+
+			printf("请输入第%d位新职员的学历", i + 1);
 			std::cin >> people->_qualification;
-			std::cout << "请输入第" << i + 1 << "位新职员的职务" << std::endl;
+
+			printf("请输入第%d位新职员的职务", i + 1);
 			std::cin >> people->_duty;
-			std::cout << "请输入第" << i + 1 << "位新职员的住址" << std::endl;
+
+			printf("请输入第%d位新职员的住址", i + 1);
 			std::cin >> people->_address;
-			std::cout << "请输入第" << i + 1 << "位新职员的电话" << std::endl;
+
+			printf("请输入第%d位新职员的电话", i + 1);
 			std::cin >> people->_directory;
 
 			//将信息保存到数组中
@@ -255,7 +263,7 @@ void addMessage()
 		//更新文件标志
 		_isEmpty = false;
 
-		std::cout << "成功添加" << add_num << "名教职工信息" << std::endl;
+		printf("成功添加%d名教职工信息\n", add_num);
 
 		// 保存数据
 		saveInfo();
@@ -273,30 +281,30 @@ void deleteMessage()
 {
 	if (_isEmpty)
 	{
-		std::cout << "记录为空！" << std::endl;
+		printf("记录为空！\n");
 	}
 	else {
-		std::cout << "请输入查找的方式：" << std::endl;
-		std::cout << "1、按姓名查找 " << std::endl;
-		std::cout << "2、按电话查找 " << std::endl;
-		std::cout << "2、按住址查找 " << std::endl;
+		printf("请输入查找的方式：\n");
+		printf("1、按姓名查找 \n");
+		printf("2、按电话查找 \n");
+		printf("3、按住址查找 \n");
 
 		int select = 0;
 		std::string data;
-		std::cin >> select;
+		scanf_s("%d", &select);
 		if (select == 1) {
 			//按照教职工姓名删除
-			std::cout << "请输入想要删除教职工的姓名：" << std::endl;
+			printf("请输入想要删除教职工的姓名：\n");
 			std::cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话删除
-			std::cout << "请输入想要删除教职工的电话：" << std::endl;
+			printf("请输入想要删除教职工的电话：\n");
 			std::cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工住址删除
-			std::cout << "请输入想要删除教职工的地址：" << std::endl;
+			printf("请输入想要删除教职工的地址：\n");
 			std::cin >> data;
 		}
 
@@ -314,11 +322,13 @@ void deleteMessage()
 			//数据同步更新到文件中
 			saveInfo();
 
-			std::cout << "删除成功！" << std::endl;
+			//std::cout << "删除成功！" << std::endl;
+			printf("删除成功！");
 		}
 		else
 		{
-			std::cout << "删除失败，未找到该职工" << std::endl;
+			//std::cout << "删除失败，未找到该职工" << std::endl;
+			printf("删除失败，未找到该职工");
 		}
 	}
 	//按任意键后清屏
@@ -330,30 +340,31 @@ void findMessage()
 {
 	if (_isEmpty)
 	{
-		std::cout << "记录为空！" << std::endl;
+		//std::cout << "记录为空！" << std::endl;
+		printf("记录为空！");
 	}
 	else {
-		std::cout << "请输入查找的方式：" << std::endl;
-		std::cout << "1、按姓名查找 " << std::endl;
-		std::cout << "2、按电话查找 " << std::endl;
-		std::cout << "3、按住址查找 " << std::endl;
+		printf("请输入查找的方式：\n");
+		printf("1、按姓名查找 \n");
+		printf("2、按电话查找 \n");
+		printf("3、按住址查找 \n");
 
 		int select = 0;
 		std::string data;
 		std::cin >> select;
 		if (select == 1) {
 			//按照教职工姓名删除
-			std::cout << "请输入想要删除教职工的姓名：" << std::endl;
+			printf("请输入想要删除教职工的姓名：\n");
 			std::cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话删除
-			std::cout << "请输入想要删除教职工的电话：" << std::endl;
+			printf("请输入想要删除教职工的电话：\n");
 			std::cin >> data;
 		}
 		else if (select == 3) {
 			//按照教职工住址删除
-			std::cout << "请输入想要删除教职工的地址：" << std::endl;
+			printf("请输入想要删除教职工的地址：\n");
 			std::cin >> data;
 		}
 
@@ -362,12 +373,12 @@ void findMessage()
 		if (index != -1)
 		{
 			//找到职工
-			std::cout << "查找成功！该职工信息如下：" << std::endl;
+			printf("查找成功！该职工信息如下：\n");
 			_peopleArray[index]->show();
 		}
 		else
 		{
-			std::cout << "查找失败，查无此人" << std::endl;
+			printf("查找失败，查无此人\n");
 		}
 	}
 	//按任意键后清屏
@@ -379,86 +390,86 @@ void modMessage()
 {
 	if (_isEmpty)
 	{
-		std::cout << "文件不存在或记录为空！" << std::endl;
+		printf("文件不存在或记录为空！\n");
 	}
 	else {
-		std::cout << "请输入查找的方式：" << std::endl;
-		std::cout << "1、按姓名查找 " << std::endl;
-		std::cout << "2、按电话查找 " << std::endl;
-		std::cout << "3、按住址查找 " << std::endl;
+		printf("请输入查找的方式：！\n");
+		printf("1、按姓名查找\n");
+		printf("2、按电话查找\n");
+		printf("3、按住址查找\n");
 
 		int select = 0;
 		std::string data;
 		std::cin >> select;
 		if (select == 1) {
 			//按照教职工姓名查找
-			std::cout << "请输入需要修改的教职工的姓名：" << std::endl;
+			printf("请输入需要修改的教职工的姓名：\n");
 			std::cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话查找
-			std::cout << "请输入需要修改的教职工的电话：" << std::endl;
+			printf("请输入需要修改的教职工的电话：\n");
 			std::cin >> data;
 		}
 		else if (select == 3) {
 			//按照教职工住址删除
-			std::cout << "请输入需要修改的教职工的地址：" << std::endl;
+			printf("请输入需要修改的教职工的地址：\n");
 			std::cin >> data;
 		}
 
 		int index = inSearch(select, data);
 
 		if (index != -1) {
-			std::cout << "请输入需要修改的信息" << std::endl;
-			std::cout << "1.姓名" << std::endl;
-			std::cout << "2.性别" << std::endl;
-			std::cout << "3.出生年月" << std::endl;
-			std::cout << "4.工作年月" << std::endl;
-			std::cout << "5.学历" << std::endl;
-			std::cout << "6.职务" << std::endl;
-			std::cout << "7.住址" << std::endl;
-			std::cout << "8.电话" << std::endl;
+			printf("请输入需要修改的信息\n");
+			printf("1.姓名\n");
+			printf("2.性别\n");
+			printf("3.出生年月\n");
+			printf("4.工作年月\n");
+			printf("5.学历\n");
+			printf("6.职务\n");
+			printf("7.住址\n");
+			printf("8.电话\n");
 
 			int choice;
 			std::string mod_data;
 			std::cin >> choice;
 			if (choice == 1) {
-				std::cout << "请输入修改后的姓名" << std::endl;
+				printf("请输入修改后的姓名\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_name = mod_data;
 			}
 			else if (choice == 2) {
-				std::cout << "请输入修改后的性别" << std::endl;
+				printf("请输入修改后的性别\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_sex = mod_data;
 			}
 			else if (choice == 3) {
-				std::cout << "请输入修改后的出生年月" << std::endl;
+				printf("请输入修改后的出生年月\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_birthday = mod_data;
 			}
 			else if (choice == 4) {
-				std::cout << "请输入修改后的工作年月" << std::endl;
+				printf("请输入修改后的工作年月\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_workData = mod_data;
 			}
 			else if (choice == 5) {
-				std::cout << "请输入修改后的学历" << std::endl;
+				printf("请输入修改后的学历\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_qualification = mod_data;
 			}
 			else if (choice == 6) {
-				std::cout << "请输入修改后的职务" << std::endl;
+				printf("请输入修改后的职务\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_duty = mod_data;
 			}
 			else if (choice == 7) {
-				std::cout << "请输入修改后的住址" << std::endl;
+				printf("请输入修改后的住址\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_address = mod_data;
 			}
 			else if (choice == 8) {
-				std::cout << "请输入修改后的电话" << std::endl;
+				printf("请输入修改后的电话\n");
 				std::cin >> mod_data;
 				_peopleArray[index]->_directory = mod_data;
 			}
@@ -472,12 +483,12 @@ void modMessage()
 
 void clearMessage()
 {
-	std::cout << "确定清空？" << std::endl;
-	std::cout << "1、确定" << std::endl;
-	std::cout << "2、返回" << std::endl;
+	printf("确定清空？\n");
+	printf("1、确定\n");
+	printf("2、返回\n");
 
 	int select = 0;
-	std::cin >> select;
+	scanf_s("%d", &select);
 
 	if (select == 1)
 	{
@@ -501,7 +512,7 @@ void clearMessage()
 			_isEmpty = true;
 		}
 
-		std::cout << "清空成功！" << std::endl;
+		printf("清空成功！\n");
 	}
 
 	system("pause");

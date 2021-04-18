@@ -70,6 +70,7 @@ void initPeople() {
 		_peopleArray[index] = people;
 		index++;
 	}
+
 	//╧ь╠унд╪Ч
 	ifs.close();
 }

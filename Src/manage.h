@@ -1,5 +1,4 @@
 # include<stdio.h>
-#include<iostream>
 #include <fstream>
 # include"people.h"
 
@@ -9,29 +8,28 @@
 int _attendance;
 
 // 职工指针
-//People** _peopleArray;
 PeopleData** _peopleArray;
 
 // 标志文件是否为空
 bool _isEmpty;
 
 extern void saveInfo();
-extern int inSearch(int select, std::string data);
+extern int inSearch(int select, string data);
 extern int getAttendance();
 extern void initPeople();
 
 int getAttendance() {
-	std::ifstream ifs;
-	ifs.open(FILENAME, std::ios::in); //打开文件  读
+	ifstream ifs;
+	ifs.open(FILENAME, ios::in); //打开文件  读
 
-	std::string name;		//姓名
-	std::string sex;		//性别
-	std::string birthday;	//出生年月
-	std::string workData;	//工作年月
-	std::string qualification;	//学历
-	std::string duty;		//职务
-	std::string address;	//住址
-	std::string directory;	//电话
+	string name;		//姓名
+	string sex;		//性别
+	string birthday;	//出生年月
+	string workData;	//工作年月
+	string qualification;	//学历
+	string duty;		//职务
+	string address;	//住址
+	string directory;	//电话
 
 	int num = 0;
 
@@ -45,17 +43,17 @@ int getAttendance() {
 }
 
 void initPeople() {
-	std::ifstream ifs;
-	ifs.open(FILENAME, std::ios::in);
+	ifstream ifs;
+	ifs.open(FILENAME, ios::in);
 
-	std::string name;		//姓名
-	std::string sex;		//性别
-	std::string birthday;	//出生年月
-	std::string workData;	//工作年月
-	std::string qualification;	//学历
-	std::string duty;		//职务
-	std::string address;	//住址
-	std::string directory;	//电话
+	string name;		//姓名
+	string sex;		//性别
+	string birthday;	//出生年月
+	string workData;	//工作年月
+	string qualification;	//学历
+	string duty;		//职务
+	string address;	//住址
+	string directory;	//电话
 
 	int index = 0;
 	while (ifs >> name && ifs >> sex && ifs >> birthday && ifs >> workData && ifs >> qualification && ifs >> duty && ifs >> address && ifs >> directory) {
@@ -70,7 +68,6 @@ void initPeople() {
 		people->_address = address;
 		people->_directory = directory;
 		_peopleArray[index] = people;
-		//std::cout << "name = " << name << std::endl;
 		index++;
 	}
 	//关闭文件
@@ -80,8 +77,8 @@ void initPeople() {
 void readData() {
 	//1、文件不存在
 
-	std::ifstream ifs;
-	ifs.open(FILENAME, std::ios::in); // 读文件
+	ifstream ifs;
+	ifs.open(FILENAME, ios::in); // 读文件
 
 	if (!ifs.is_open())
 	{
@@ -167,14 +164,12 @@ void errorChoice()
 
 void showAllMessage()
 {
-	//std::cout << "attendance = " << _attendance << std::endl;
 	if (_isEmpty) {
 		printf("记录为空");
 	}
 	else {
 	for (int i = 0; i < _attendance; i++)
 
-		//_peopleArray[i]->show();
 		show(_peopleArray[i]);
 	}
 
@@ -187,9 +182,6 @@ void addMessage()
 {
 	int add_num = 0;
 	printf("请输入要添加的人数");
-	//scanf_s("%d", &add_num);
-	//printf("%d", add_num);
-	//std::cin >> add_num;
 	scanf_s("%d", &add_num);
 	if (add_num >= 0) {
 		printf("添加人数为%d\n", add_num);
@@ -198,9 +190,7 @@ void addMessage()
 		int new_num = _attendance + add_num;
 
 		// 根据系统内新的人数开辟空间
-		//People** new_space = new People * [new_num];
 		PeopleData** new_space = new PeopleData *[_attendance];
-		//PeopleData** new_space = new PeopleData * [new_num];
 
 		//先将原来的数据拷贝到新空间
 		if (_peopleArray != NULL) {
@@ -212,32 +202,31 @@ void addMessage()
 		// 添加新数据
 		for (int i = 0; i < add_num; i++) {
 
-			//People* people = new People;
 			PeopleData *people = new PeopleData;
 
 			printf("请输入第%d位新职员的姓名", i+1);
-			std::cin >> people->_name;
+			cin >> people->_name;
 
 			printf("请输入第%d位新职员的性别", i + 1);
-			std::cin >> people->_sex;
+			cin >> people->_sex;
 
 			printf("请输入第%d位新职员的出生年月", i + 1);
-			std::cin >> people->_birthday;
+			cin >> people->_birthday;
 
 			printf("请输入第%d位新职员的工作年月", i + 1);
-			std::cin >> people->_workData;
+			cin >> people->_workData;
 
 			printf("请输入第%d位新职员的学历", i + 1);
-			std::cin >> people->_qualification;
+			cin >> people->_qualification;
 
 			printf("请输入第%d位新职员的职务", i + 1);
-			std::cin >> people->_duty;
+			cin >> people->_duty;
 
 			printf("请输入第%d位新职员的住址", i + 1);
-			std::cin >> people->_address;
+			cin >> people->_address;
 
 			printf("请输入第%d位新职员的电话", i + 1);
-			std::cin >> people->_directory;
+			cin >> people->_directory;
 
 			//将信息保存到数组中
 			new_space[_attendance + i] = people;
@@ -281,22 +270,22 @@ void deleteMessage()
 		printf("3、按住址查找 \n");
 
 		int select = 0;
-		std::string data;
+		string data;
 		scanf_s("%d", &select);
 		if (select == 1) {
 			//按照教职工姓名删除
 			printf("请输入想要删除教职工的姓名：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话删除
 			printf("请输入想要删除教职工的电话：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工住址删除
 			printf("请输入想要删除教职工的地址：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		int index = inSearch(select, data);
 		if (index == -1) {
@@ -314,7 +303,6 @@ void deleteMessage()
 			saveInfo();
 
 			index = inSearch(select, data);
-			//std::cout << "删除成功！" << std::endl;
 			printf("删除成功！\n");
 		}
 
@@ -328,7 +316,6 @@ void findMessage()
 {
 	if (_isEmpty)
 	{
-		//std::cout << "记录为空！" << std::endl;
 		printf("记录为空！");
 	}
 	else {
@@ -338,22 +325,22 @@ void findMessage()
 		printf("3、按住址查找 \n");
 
 		int select = 0;
-		std::string data;
-		std::cin >> select;
+		string data;
+		cin >> select;
 		if (select == 1) {
 			//按照教职工姓名删除
 			printf("请输入想要查找教职工的姓名：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话删除
 			printf("请输入想要查找教职工的电话：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		else if (select == 3) {
 			//按照教职工住址删除
 			printf("请输入想要查找教职工的地址：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 
 		int index = inSearch(select, data);
@@ -361,13 +348,10 @@ void findMessage()
 		if (index == -1)
 			printf("查找失败，查无此人\n");
 
-
-		while (index != -1) {
-			//找到职工
-			printf("查找成功！该职工信息如下：\n");
-			show(_peopleArray[index]);
-			index = inSearch(select, data);
-		}
+		//找到职工
+		printf("查找成功！该职工信息如下：\n");
+		show(_peopleArray[index]);
+		index = inSearch(select, data);
 	}
 	//按任意键后清屏
 	system("pause");
@@ -387,22 +371,22 @@ void modMessage()
 		printf("3、按住址查找\n");
 
 		int select = 0;
-		std::string data;
-		std::cin >> select;
+		string data;
+		cin >> select;
 		if (select == 1) {
 			//按照教职工姓名查找
 			printf("请输入需要修改的教职工的姓名：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		else if (select == 2) {
 			//按照教职工电话查找
 			printf("请输入需要修改的教职工的电话：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 		else if (select == 3) {
 			//按照教职工住址删除
 			printf("请输入需要修改的教职工的地址：\n");
-			std::cin >> data;
+			cin >> data;
 		}
 
 		int index = inSearch(select, data);
@@ -419,46 +403,46 @@ void modMessage()
 			printf("8.电话\n");
 
 			int choice;
-			std::string mod_data;
-			std::cin >> choice;
+			string mod_data;
+			cin >> choice;
 			if (choice == 1) {
 				printf("请输入修改后的姓名\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_name = mod_data;
 			}
 			else if (choice == 2) {
 				printf("请输入修改后的性别\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_sex = mod_data;
 			}
 			else if (choice == 3) {
 				printf("请输入修改后的出生年月\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_birthday = mod_data;
 			}
 			else if (choice == 4) {
 				printf("请输入修改后的工作年月\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_workData = mod_data;
 			}
 			else if (choice == 5) {
 				printf("请输入修改后的学历\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_qualification = mod_data;
 			}
 			else if (choice == 6) {
 				printf("请输入修改后的职务\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_duty = mod_data;
 			}
 			else if (choice == 7) {
 				printf("请输入修改后的住址\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_address = mod_data;
 			}
 			else if (choice == 8) {
 				printf("请输入修改后的电话\n");
-				std::cin >> mod_data;
+				cin >> mod_data;
 				_peopleArray[index]->_directory = mod_data;
 			}
 		}
@@ -481,7 +465,7 @@ void clearMessage()
 	if (select == 1)
 	{
 		//清空文件
-		std::ofstream ofs(FILENAME, std::ios::trunc); // 删除文件后重新创建
+		ofstream ofs(FILENAME, ios::trunc); // 删除文件后重新创建
 		ofs.close();
 
 		if (_peopleArray != NULL)
@@ -514,8 +498,8 @@ void exitSystem()
 }
 
 void saveInfo() {
-	std::ofstream ofs;
-	ofs.open(FILENAME, std::ios::out);
+	ofstream ofs;
+	ofs.open(FILENAME, ios::out);
 
 	for (int i = 0; i < _attendance; i++) {
 
@@ -527,12 +511,12 @@ void saveInfo() {
 			<< _peopleArray[i]->_qualification << "  "
 			<< _peopleArray[i]->_duty << "  "
 			<< _peopleArray[i]->_address << "  "
-			<< _peopleArray[i]->_directory << std::endl;
+			<< _peopleArray[i]->_directory << endl;
 	}
 	ofs.close();
 }
 
-int inSearch(int select, std::string data) {
+int inSearch(int select, string data) {
 
 	int index = -1;
 

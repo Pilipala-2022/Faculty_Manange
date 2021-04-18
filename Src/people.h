@@ -1,31 +1,18 @@
 #pragma once
 # include<string>
 #include<iostream>
-//class People
-//{
-//public:
-//	std::string _name;		//姓名
-//	std::string _sex;		//性别
-//	std::string _birthday;	//出生年月
-//	std::string _workData;	//工作年月
-//	std::string _qualification;	//学历
-//	std::string _duty;		//职务
-//	std::string _address;	//住址
-//	std::string _directory;	//电话
-//
-//	void show();
-//};
+using namespace std;
 
 struct PeopleData
 {
-	std::string _name;		//姓名
-	std::string _sex;		//性别
-	std::string _birthday;	//出生年月
-	std::string _workData;	//工作年月
-	std::string _qualification;	//学历
-	std::string _duty;		//职务
-	std::string _address;	//住址
-	std::string _directory;	//电话
+	string _name;		//姓名
+	string _sex;		//性别
+	string _birthday;	//出生年月
+	string _workData;	//工作年月
+	string _qualification;	//学历
+	string _duty;		//职务
+	string _address;	//住址
+	string _directory;	//电话
 };
 
 void show(PeopleData* people) {

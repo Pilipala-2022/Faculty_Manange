@@ -13,16 +13,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\main.cpp">
-      <Filter>Src\源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Src\people.h">
-      <Filter>Src\头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Src\manage.h">
       <Filter>Src\头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\main.c">
+      <Filter>Src\源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

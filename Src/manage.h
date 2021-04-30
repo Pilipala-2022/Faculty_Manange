@@ -1,566 +1,595 @@
-# include<stdio.h>
-#include <fstream>
-# include"people.h"
+#include<stdio.h>
+#include<string.h>
+#include<windows.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<stdbool.h>
 
-#define FILENAME "manageFile.txt"
-
-// 系统中的人数
-int _attendance;
-
-// 职工指针
-PeopleData** _peopleArray;
-
-// 标志文件是否为空
-bool _isEmpty;
-
-extern void saveInfo();
-extern int inSearch(int select, string data);
-extern int getAttendance();
-extern void initPeople();
-
-int getAttendance() {
-	ifstream ifs;
-	ifs.open(FILENAME, ios::in); //打开文件  读
-
-	string name;		//姓名
-	string sex;		//性别
-	string birthday;	//出生年月
-	string workData;	//工作年月
-	string qualification;	//学历
-	string duty;		//职务
-	string address;	//住址
-	string directory;	//电话
-
-	int num = 0;
-
-	while (ifs >> name && ifs >> sex && ifs >> birthday && ifs >> workData && ifs >> qualification && ifs >> duty && ifs >> address && ifs >> directory)
-	{
-		//统计人数变量
-		num++;
-	}
-
-	return num;
-}
-
-void initPeople() {
-	ifstream ifs;
-	ifs.open(FILENAME, ios::in);
-
-	string name;		//姓名
-	string sex;		//性别
-	string birthday;	//出生年月
-	string workData;	//工作年月
-	string qualification;	//学历
-	string duty;		//职务
-	string address;	//住址
-	string directory;	//电话
-
-	int index = 0;
-	while (ifs >> name && ifs >> sex && ifs >> birthday && ifs >> workData && ifs >> qualification && ifs >> duty && ifs >> address && ifs >> directory) {
-		//People* people = new People;
-		PeopleData* people = new PeopleData;
-		people->_name = name;
-		people->_sex = sex;
-		people->_birthday = birthday;
-		people->_workData = workData;
-		people->_qualification = qualification;
-		people->_duty = duty;
-		people->_address = address;
-		people->_directory = directory;
-		_peopleArray[index] = people;
-		index++;
-	}
-
-	//关闭文件
-	ifs.close();
-}
-
-void readData() {
-	//1、文件不存在
-
-	ifstream ifs;
-	ifs.open(FILENAME, ios::in); // 读文件
-
-	if (!ifs.is_open())
-	{
-		printf("文件不存在\n");
-		//初始化属性
-		//初始化记录人数
-		_attendance = 0;
-		//初始化数组指针 
-		_peopleArray = NULL;
-		//初始化文件是否为空
-		_isEmpty = true;
-		ifs.close();
-		return;
-	}
-
-	//2、文件存在 数据为空
-	char ch;
-	ifs >> ch;
-	if (ifs.eof())
-	{
-		//文件为空
-		printf("文件为空！\n");
-		//初始化记录人数
-		_attendance = 0;
-		//初始化数组指针 
-		_peopleArray = NULL;
-		//初始化文件是否为空
-		_isEmpty = true;
-		ifs.close();
-		return;
-	}
-
-	//3、文件存在，并且记录数据
-	int num = getAttendance();
-	printf("职工人数为：%d", num);
-	_attendance = num;
-
-	//开辟空间
-	_peopleArray = new PeopleData*[_attendance];
-	//将文件中的数据 ，存到数组中
-	initPeople();
+# define FILENAME "manageFile.txt"
 
 
-
-}
-
-void showMenu()
+typedef struct Teacher
 {
-	// 显示菜单
-	printf("%*c", 30, 0);
-	printf("************************************************************\n");
-	printf("%*c", 30, 0);
-	printf("************************************************************\n");
-	printf("%*c", 30, 0);
-	printf("**********************教职工管理系统************************\n");
-	printf("%*c", 30, 0);
-	printf("**********************1.显示教职工信息**********************\n");
-	printf("%*c", 30, 0);
-	printf("**********************2.增加教职工信息**********************\n");
-	printf("%*c", 30, 0);
-	printf("**********************3.删除教职工信息**********************\n");
-	printf("%*c", 30, 0);
-	printf("**********************4.查找教职工信息**********************\n");
-	printf("%*c", 30, 0);
-	printf("**********************5.修改教职工信息**********************\n");
-	printf("%*c", 30, 0);
-	printf("**********************6.清除所有信息************************\n");
-	printf("%*c", 30, 0);
-	printf("**********************7.退出系统****************************\n");
-	printf("%*c", 30, 0);
-	printf("************************************************************\n\n\n");
-	printf("%*c", 30, 0);
-	printf("**********************(输入序号选择操作)************************\n");
+    char name[20];     //姓名
+    char sex[20];     //性别
+    char birthday[20];  //出生年月
+    char workData[20]; //工作年月
+    char qualification[20];    //学历
+    char duty[20];     //职务
+    char address[20];    //住址
+    char phone[20];    //电话
+    char message[20];   //科研信息
+} Teacher;
 
+
+typedef struct List
+{
+    Teacher s[1001];
+    int k;
+} node;
+
+
+//void showMenu();                     // 显示界面
+void exitSystem();                   // 退出管理系统
+//void init(node* a);                  // 顺序表初始化
+void saveInfo(node* a);                  //信息导出
+//void findMessage(node* a);                  // 信息查询
+//void modMessage(node* a);                // 修改信息
+//void deleteMessage(node* a);                // 删除信息
+//void showAllMessage(node* a);                 // 信息浏览
+//void addMessage(node* a);                 // 录入信息
+//void readData(node* a);//从文件读取信息
+void sortMessage(node* a);
+
+void init(node* a)    //顺序表初始化
+{
+    a->k = 0;
+}
+
+void showMenu()//1.主界面
+{   
+
+    // 显示菜单
+    printf("%*c", 30, 0);
+    printf("************************************************************\n");
+    printf("%*c", 30, 0);
+    printf("************************************************************\n");
+    printf("%*c", 30, 0);
+    printf("**********************教职工管理系统************************\n");
+    printf("%*c", 30, 0);
+    printf("**********************1.显示教职工信息**********************\n");
+    printf("%*c", 30, 0);
+    printf("**********************2.增加教职工信息**********************\n");
+    printf("%*c", 30, 0);
+    printf("**********************3.删除教职工信息**********************\n");
+    printf("%*c", 30, 0);
+    printf("**********************4.查找教职工信息**********************\n");
+    printf("%*c", 30, 0);
+    printf("**********************5.修改教职工信息**********************\n");
+    printf("%*c", 30, 0);
+    printf("**********************6.排序********************************\n");
+    printf("%*c", 30, 0);
+    printf("**********************7.退出系统****************************\n");
+    printf("%*c", 30, 0);
+    printf("************************************************************\n\n\n");
+    printf("%*c", 30, 0);
+    printf("**********************(输入序号选择操作)************************\n");
+
+}
+
+void addMessage(node* a)//2.录入信息
+{
+    int id;
+    FILE* fp = fopen(FILENAME, "a");
+    if (fp == NULL)
+    {
+        printf("打开文件失败！");
+        exit(-1);
+    }
+    while (1)
+    {
+        system("cls");
+        printf("1:录入信息;\t2:结束录入信息\n");
+        scanf("%d", &id);
+        if (id == 2)
+        {
+            system("cls");
+            return;
+        }
+        else if (id != 1)
+        {
+            printf("你输入的命令错误,请重新输入\n");
+            continue;
+        }
+        if (a->k == 1001)
+        {
+            printf("超过单次录入次数，请重启系统输入信息\n");
+            exitSystem(a);
+        }
+
+        //输入信息
+        printf("请输入姓名:");
+        scanf("%s", a->s[++a->k].name);
+        printf("请输入性别:");
+        scanf("%s", a->s[a->k].sex);
+        printf("请输入出生时间:");
+        scanf("%s", a->s[a->k].birthday);
+        printf("请输入工作时间:");
+        scanf("%s", a->s[a->k].workData);
+        printf("请输入学历:");
+        scanf("%s", a->s[a->k].qualification);
+        printf("请输入职务:");
+        scanf("%s", a->s[a->k].duty);
+        printf("请输入住址:");
+        scanf("%s", a->s[a->k].address);
+        printf("请输入电话:");
+        scanf("%s", a->s[a->k].phone);
+        printf("请输入科研成果:");
+        scanf("%s", a->s[a->k].message);
+      
+    }
+    saveInfo(a);
+    fclose(fp);
+
+}
+
+void showAllMessage(node* a)
+
+{
+    int i, j;
+    for (i = 1; i <= a->k - 1; i++)
+        for (j = 1; j <= a->k - 1; j++)
+        {
+            if (strcmp(a->s[j].name, a->s[j + 1].name) > 0)
+            {
+                Teacher temp = a->s[j];
+                a->s[j] = a->s[j + 1];
+                a->s[j + 1] = temp;
+            }
+        }
+    //------------------------输出----------------------------
+    for (i = 1; i <= a->k; i++)
+    {
+        printf("\n 姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+    }
+    saveInfo(a);
+    system("pause");
+    system("cls");
+}
+
+void modMessage(node* a)//修改信息
+{
+    printf(" 信息查询\n");
+    printf("1.姓名\n");
+    printf("2.住址\n");
+    printf("3.电话\n");
+
+    printf("请输入选项：");
+    int id;
+    while (scanf("%d", &id) != EOF)
+    {
+        if (id == 1 || id == 2 || id == 3)
+            break;
+    }
+    if (id == 1)
+    {
+        system("cls");
+        int i, m, count = 1, teacher[20];
+        char num[20];
+        printf("请输入你要修改的姓名:");
+        scanf("%s", num);
+
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].name, num);
+            if (f == 0)
+            {
+                teacher[count] = i;
+                printf("\n第%d位教师：姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", i, a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+                count++;
+            }
+        }
+
+        printf("请输入要修改第几位教师：");
+        scanf("%d", &m);
+        i = teacher[m];
+        printf("\n 姓名修改为:");
+        scanf("%s", a->s[i].name);
+        printf("\n 性别修改为:");
+        scanf("%s", a->s[i].sex);
+        printf("\n 出生时间修改为:");
+        scanf("%s", a->s[i].birthday);
+        printf("\n 工作时间修改为:");
+        scanf("%s", a->s[i].workData);
+        printf("\n 学历修改为:");
+        scanf("%s", a->s[i].qualification);
+        printf("\n 职务修改为:");
+        scanf("%s", a->s[i].duty);
+        printf("\n 住址修改为:");
+        scanf("%s", a->s[i].address);
+        printf("\n 电话修改为:");
+        scanf("%s", a->s[i].phone);
+        printf("\n\n\n\n\n\n\n修改后如下：\n");
+        printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+
+    }
+    else if (id == 2)
+    {
+        system("cls");
+        int i, m;
+        char num[20];
+        printf("请输入你要修改的住址:");
+        scanf("%s", num);
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].address, num);
+            if (f == 0)
+            {
+                printf("\n\n\n 该教师信息如下\n\n\n");
+
+                printf("\n姓名:%s 性别:%s 出生时间:%d 工作时间:%d 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+                printf("\n 姓名修改为:");
+                scanf("%s", a->s[i].name);
+                printf("\n 性别修改为:");
+                scanf("%s", a->s[i].sex);
+                printf("\n 出生时间修改为:\n");
+                scanf("%s", a->s[i].birthday);
+                printf("\n 工作时间修改为:\n");
+                scanf("%s", a->s[i].workData);
+                printf("\n 学历修改为:\n");
+                scanf("%s", a->s[i].qualification);
+                printf("\n 职务修改为:\n");
+                scanf("%s", a->s[i].duty);
+                printf("\n 住址修改为:\n");
+                scanf("%s", a->s[i].address);
+                printf("\n 电话修改为:\n");
+                scanf("%s", a->s[i].phone);
+                printf("\n\n\n\n\n\n\n修改后如下：\n");
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+            }
+        }
+    }
+    else if (id == 3)
+    {
+        system("cls");
+        int i, m;
+        char num[20];
+        printf("请输入你要修改的电话:");
+        scanf("%s", num);
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].phone, num);
+            if (f == 0)
+            {
+                printf("\n\n\n 该教师信息如下\n\n\n");
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+                printf("\n 姓名修改为:");
+                scanf("%s", a->s[i].name);
+                printf("\n 性别修改为:");
+                scanf("%s", a->s[i].sex);
+                printf("\n 出生时间修改为:\n");
+                scanf("%s", a->s[i].birthday);
+                printf("\n 工作时间修改为:\n");
+                scanf("%s", a->s[i].workData);
+                printf("\n 学历修改为:\n");
+                scanf("%s", a->s[i].qualification);
+                printf("\n 职务修改为:\n");
+                scanf("%s", a->s[i].duty);
+                printf("\n 住址修改为:\n");
+                scanf("%s", a->s[i].address);
+                printf("\n 电话修改为:\n");
+                scanf("%s", a->s[i].phone);
+                printf("\n\n\n\n\n\n\n修改后如下：\n");
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+            }
+        }
+    }
+    system("pause");
+    system("cls");
+}
+
+void deleteMessage(node* a)//删除信息
+{
+    printf(" 信息查询\n");
+    printf("1.姓名\n");
+    printf("2.住址\n");
+    printf("3.电话\n");
+
+    printf("请输入选项：");
+    int id;
+    while (scanf("%d", &id) != EOF)
+    {
+        if (id == 1 || id == 2 || id == 3)
+            break;
+    }
+    if (id == 1)
+    {
+        system("cls");
+        int i, m, d[20], k = 0, n;
+        char num[20];
+        //toxy(48, 5);
+        printf("请输入你要删除的姓名:");
+        scanf("%s", num);
+        for (i = 1; i <= a->k; i++)
+        {
+
+            if (0 == strcmp(a->s[i].name, num))
+            {
+                printf("\n%d 姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", ++k, a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+
+                d[k] = i;
+
+            }
+        }
+        while (scanf("%d", &n) != EOF)
+        {
+            if (0 < n < k)
+                break;
+        }
+        for (i = d[n]; i < a->k; i++)
+        {
+            a->s[i] = a->s[i + 1];
+        }
+
+        printf("\n\n删除成功!\n\n");
+        a->k--;
+    }
+    else if (id == 2)
+    {
+        system("cls");
+        int i, m, d[20], k = 0, n;
+        char num[20];
+        //toxy(48, 5);
+        printf("请输入你要删除的住址:");
+        scanf("%s", num);
+        for (i = 1; i <= a->k; i++)
+        {
+            if (0 == strcmp(a->s[i].address, num))
+            {
+                printf("\n%d 姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", ++k, a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+
+                d[k] = i;
+
+            }
+        }
+        while (scanf("%d", &n) != EOF)
+        {
+            if (0 < n < k)
+                break;
+        }
+        for (i = d[n]; i < a->k; i++)
+        {
+            a->s[i] = a->s[i + 1];
+        }
+
+        printf("\n\n删除成功!\n\n");
+        a->k--;
+
+
+    }
+    else if (id == 3)
+    {
+        system("cls");
+        int i, m, d[20], k = 0, n;
+        char num[20];
+        //toxy(48, 5);
+        printf("请输入你要删除的电话:");
+        scanf("%s", num);
+        for (i = 1; i <= a->k; i++)
+        {
+            if (0 == strcmp(a->s[i].phone, num))
+            {
+                printf("\n%d 姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", ++k, a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+
+                d[k] = i;
+            }
+
+
+        }
+        while (scanf("%d", &n) != EOF)
+        {
+            if (0 < n < k)
+                break;
+        }
+        for (i = d[n]; i < a->k; i++)
+        {
+            a->s[i] = a->s[i + 1];
+        }
+
+        printf("\n\n删除成功!\n\n");
+        a->k--;
+    }
+
+    system("pause");
+    system("cls");
+
+}
+
+void findMessage(node* a)//4. 信息查询
+{
+
+    printf(" 信息查询(按下列序号选择查询的途径)\n");
+    printf("1.姓名\n");
+    printf("2.住址\n");
+    printf("3.电话\n");
+    printf("4.科研结果\n");
+    printf("请输入选项：");
+    int id;
+    while (scanf("%d", &id) != EOF)
+    {
+        if (id == 1 || id == 2 || id == 3 || id == 4)
+            break;
+    }
+    char da[50];
+    if (id == 1)
+    {
+        system("cls");
+        //toxy(48, 5);
+        printf("请输入你要查找的姓名:");
+        scanf("%s", da);
+        //输出
+        int i, j = 0;
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].name, da);
+            if (f == 0) {
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+                j++;
+            }
+        }
+        if (j == 0)
+            printf("查无此人\n");
+    }
+    else if (id == 2)
+    {
+        system("cls");
+        printf("请输入你要查找的住址:");
+        scanf("%s", da);
+        //输出
+        int i, j = 0;
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].address, da);
+            if (f == 0)
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+        }
+        if (j == 0)
+            printf("查无此人\n");
+
+    }
+
+
+    else if (id == 3)
+    {
+        system("cls");
+        printf("请输入你要查找的电话:");
+        scanf("%s", da);
+        //输出
+        int i, j = 0;
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].phone, da);
+            if (f == 0)
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+        }
+        if (j == 0)
+            printf("查无此人\n");
+
+    }
+    else if (id == 4)
+    {
+        system("cls");
+        printf("请输入你要查找的科研成果:");
+        scanf("%s", da);
+        //输出
+        int i, j = 0;
+        for (i = 1; i <= a->k; i++)
+        {
+            int f = strcmp(a->s[i].message, da);
+            if (f == 0)
+                printf("\n姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+        }
+        if (j == 0)
+            printf("查无此人\n");
+
+    }
+    system("pause");
+    system("cls");
+}
+
+void saveInfo(node* a)//5. 信息导出
+{
+    
+
+    FILE* fp = fopen(FILENAME, "w");
+    //char ch[] = "\n\r";
+    if (fp == NULL)
+    {
+        printf("打开文件失败！");
+        exit(-1);
+    }
+    int i;
+    //--------------------------------输出到文件-----------------------------------
+    for (i = 1; i <= a->k; i++)
+    {
+        fwrite(&(a->s[i]), sizeof(Teacher), 1, fp);
+        //fwrite(ch, 2, 1, fp);
+    }
+    fclose(fp);
+
+}
+
+void Read(node* a)
+{
+    FILE* fp = fopen(FILENAME, "r");
+    if (fp == NULL)
+    {
+        printf("打开文件失败！");
+        system("cls");
+        return;
+    }
+    while (fread(&(a->s[++(a->k)]), sizeof(Teacher), 1, fp));
+    a->k--;
+    fclose(fp);
+
+}
+
+void exitSystem()       //退出软件
+{
+    system("pause");
+    exit(0); // 退出程序
 }
 
 void errorChoice()
 {
-	printf("错误输入\n");
-	system("pause");
-	exit(0);
+    printf("错误输入\n");
+    exitSystem();
 }
 
-void showAllMessage()
-{
-	if (_isEmpty) {
-		printf("记录为空");
-	}
-	else {
-	for (int i = 0; i < _attendance; i++)
+void sortMessage(node* a) {
+    int choise, i, j;
+    printf("请选择需要按哪种信息排序\n");
+    printf("1.出生年月\n");
+    printf("2.工作年月\n");
+    scanf("%d", &choise);
+    if (choise == 1) {
+        for (i = 1; i <= a->k - 1; i++)
+            for (j = 1; j <= a->k - 1; j++)
+            {
+                if (strcmp(a->s[j].birthday, a->s[j + 1].birthday) > 0)
+                {
+                    Teacher temp = a->s[j];
+                    a->s[j] = a->s[j + 1];
+                    a->s[j + 1] = temp;
+                }
+            }
+        //saveInfo(a);
+        for (i = 1; i <= a->k; i++)
+        {
+            printf("\n 姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+        }
+    }
+    else if (choise == 2) {
+        for (i = 1; i <= a->k - 1; i++)
+            for (j = 1; j <= a->k - 1; j++)
+            {
+                if (strcmp(a->s[j].workData, a->s[j + 1].workData) > 0)
+                {
+                    Teacher temp = a->s[j];
+                    a->s[j] = a->s[j + 1];
+                    a->s[j + 1] = temp;
+                }
+            }
+        //saveInfo(a);
+        for (i = 1; i <= a->k; i++)
+        {
+            printf("\n 姓名:%s 性别:%s 出生时间:%s 工作时间:%s 学历:%s 职务:%s 住址:%s 电话:%s  科研成果:%s\n", a->s[i].name, a->s[i].sex, a->s[i].birthday, a->s[i].workData, a->s[i].qualification, a->s[i].duty, a->s[i].address, a->s[i].phone, a->s[i].message);
+        }
+    }
 
-		show(_peopleArray[i]);
-	}
+    else
+        printf("错误输入\n");
 
-	//按任意键后清屏
-	system("pause");
-	system("cls");
+    system("pause");
+    system("cls");
 }
-
-void addMessage()
-{
-	int add_num = 0;
-	printf("请输入要添加的人数");
-	scanf_s("%d", &add_num);
-	if (add_num >= 0) {
-		printf("添加人数为%d\n", add_num);
-
-		// 计算添加以后的人数
-		int new_num = _attendance + add_num;
-
-		// 根据系统内新的人数开辟空间
-		PeopleData** new_space = new PeopleData *[_attendance];
-
-		//先将原来的数据拷贝到新空间
-		if (_peopleArray != NULL) {
-			for (int i = 0; i < _attendance; i++) {
-				new_space[i] = _peopleArray[i];
-			}
-		}
-
-		// 添加新数据
-		for (int i = 0; i < add_num; i++) {
-
-			PeopleData *people = new PeopleData;
-
-			printf("请输入第%d位新职员的姓名", i+1);
-			cin >> people->_name;
-
-			printf("请输入第%d位新职员的性别", i + 1);
-			cin >> people->_sex;
-
-			printf("请输入第%d位新职员的出生年月", i + 1);
-			cin >> people->_birthday;
-
-			printf("请输入第%d位新职员的工作年月", i + 1);
-			cin >> people->_workData;
-
-			printf("请输入第%d位新职员的学历", i + 1);
-			cin >> people->_qualification;
-
-			printf("请输入第%d位新职员的职务", i + 1);
-			cin >> people->_duty;
-
-			printf("请输入第%d位新职员的住址", i + 1);
-			cin >> people->_address;
-
-			printf("请输入第%d位新职员的电话", i + 1);
-			cin >> people->_directory;
-
-			//将信息保存到数组中
-			new_space[_attendance + i] = people;
-		}
-		// 释放原有空间
-		delete[] _peopleArray;
-
-		// 更改新空间指向
-		_peopleArray = new_space;
-
-		// 更新教职工人数
-		_attendance = new_num;
-
-		//更新文件标志
-		_isEmpty = false;
-
-		printf("成功添加%d名教职工信息\n", add_num);
-
-		// 保存数据
-		saveInfo();
-	}
-	else {
-		printf("输入数据错误\n");
-	}
-
-	system("pause");
-	system("cls");
-
-}
-
-void deleteMessage()
-{
-	if (_isEmpty)
-	{
-		printf("记录为空！\n");
-	}
-	else {
-		printf("请输入查找的方式：\n");
-		printf("1、按姓名查找 \n");
-		printf("2、按电话查找 \n");
-		printf("3、按住址查找 \n");
-
-		int select = 0;
-		string data;
-		scanf_s("%d", &select);
-		if (select == 1) {
-			//按照教职工姓名删除
-			printf("请输入想要删除教职工的姓名：\n");
-			cin >> data;
-		}
-		else if (select == 2) {
-			//按照教职工电话删除
-			printf("请输入想要删除教职工的电话：\n");
-			cin >> data;
-		}
-		else if (select == 2) {
-			//按照教职工住址删除
-			printf("请输入想要删除教职工的地址：\n");
-			cin >> data;
-		}
-		int index = inSearch(select, data);
-		if (index == -1) {
-			printf("删除失败，未找到该职工");
-		}
-		while (index != -1) {
-
-			for (int i = index; i < _attendance - 1; i++)
-				{
-					//数据前移
-					_peopleArray[i] = _peopleArray[i + 1];
-				}
-			_attendance--; //更新数组中记录人员个数
-			//数据同步更新到文件中
-			saveInfo();
-
-			index = inSearch(select, data);
-			printf("删除成功！\n");
-		}
-
-	}
-	//按任意键后清屏
-	system("pause");
-	system("cls");
-}
-
-void findMessage()
-{
-	if (_isEmpty)
-	{
-		printf("记录为空！");
-	}
-	else {
-		printf("请输入查找的方式：\n");
-		printf("1、按姓名查找 \n");
-		printf("2、按电话查找 \n");
-		printf("3、按住址查找 \n");
-
-		int select = 0;
-		string data;
-		cin >> select;
-		if (select == 1) {
-			//按照教职工姓名删除
-			printf("请输入想要查找教职工的姓名：\n");
-			cin >> data;
-		}
-		else if (select == 2) {
-			//按照教职工电话删除
-			printf("请输入想要查找教职工的电话：\n");
-			cin >> data;
-		}
-		else if (select == 3) {
-			//按照教职工住址删除
-			printf("请输入想要查找教职工的地址：\n");
-			cin >> data;
-		}
-
-		int index = inSearch(select, data);
-		
-		if (index == -1)
-			printf("查找失败，查无此人\n");
-
-		//找到职工
-		printf("查找成功！该职工信息如下：\n");
-		show(_peopleArray[index]);
-		index = inSearch(select, data);
-	}
-	//按任意键后清屏
-	system("pause");
-	system("cls");
-}
-
-void modMessage()
-{
-	if (_isEmpty)
-	{
-		printf("文件不存在或记录为空！\n");
-	}
-	else {
-		printf("请输入查找的方式：！\n");
-		printf("1、按姓名查找\n");
-		printf("2、按电话查找\n");
-		printf("3、按住址查找\n");
-
-		int select = 0;
-		string data;
-		cin >> select;
-		if (select == 1) {
-			//按照教职工姓名查找
-			printf("请输入需要修改的教职工的姓名：\n");
-			cin >> data;
-		}
-		else if (select == 2) {
-			//按照教职工电话查找
-			printf("请输入需要修改的教职工的电话：\n");
-			cin >> data;
-		}
-		else if (select == 3) {
-			//按照教职工住址删除
-			printf("请输入需要修改的教职工的地址：\n");
-			cin >> data;
-		}
-
-		int index = inSearch(select, data);
-
-		if (index != -1) {
-			printf("请输入需要修改的信息（根据下列序号选择）\n");
-			printf("1.姓名\n");
-			printf("2.性别\n");
-			printf("3.出生年月\n");
-			printf("4.工作年月\n");
-			printf("5.学历\n");
-			printf("6.职务\n");
-			printf("7.住址\n");
-			printf("8.电话\n");
-
-			int choice;
-			string mod_data;
-			cin >> choice;
-			if (choice == 1) {
-				printf("请输入修改后的姓名\n");
-				cin >> mod_data;
-				_peopleArray[index]->_name = mod_data;
-			}
-			else if (choice == 2) {
-				printf("请输入修改后的性别\n");
-				cin >> mod_data;
-				_peopleArray[index]->_sex = mod_data;
-			}
-			else if (choice == 3) {
-				printf("请输入修改后的出生年月\n");
-				cin >> mod_data;
-				_peopleArray[index]->_birthday = mod_data;
-			}
-			else if (choice == 4) {
-				printf("请输入修改后的工作年月\n");
-				cin >> mod_data;
-				_peopleArray[index]->_workData = mod_data;
-			}
-			else if (choice == 5) {
-				printf("请输入修改后的学历\n");
-				cin >> mod_data;
-				_peopleArray[index]->_qualification = mod_data;
-			}
-			else if (choice == 6) {
-				printf("请输入修改后的职务\n");
-				cin >> mod_data;
-				_peopleArray[index]->_duty = mod_data;
-			}
-			else if (choice == 7) {
-				printf("请输入修改后的住址\n");
-				cin >> mod_data;
-				_peopleArray[index]->_address = mod_data;
-			}
-			else if (choice == 8) {
-				printf("请输入修改后的电话\n");
-				cin >> mod_data;
-				_peopleArray[index]->_directory = mod_data;
-			}
-		}
-
-	}
-	//按任意键后清屏
-	system("pause");
-	system("cls");
-}
-
-void clearMessage()
-{
-	printf("确定清空？\n");
-	printf("1、确定\n");
-	printf("2、返回\n");
-
-	int select = 0;
-	scanf_s("%d", &select);
-
-	if (select == 1)
-	{
-		//清空文件
-		ofstream ofs(FILENAME, ios::trunc); // 删除文件后重新创建
-		ofs.close();
-
-		if (_peopleArray != NULL)
-		{
-			//删除堆区的每个职工对象
-			for (int i = 0; i < _attendance; i++)
-			{
-				delete _peopleArray;
-				_peopleArray = NULL;
-			}
-
-			//删除堆区数组指针
-			delete[] _peopleArray;
-			_peopleArray = NULL;
-			_attendance = 0;
-			_isEmpty = true;
-		}
-
-		printf("清空成功！\n");
-	}
-
-	system("pause");
-	system("cls");
-}
-
-void exitSystem()
-{
-	system("pause");
-	exit(0); // 退出程序
-}
-
-void saveInfo() {
-	ofstream ofs;
-	ofs.open(FILENAME, ios::out);
-
-	for (int i = 0; i < _attendance; i++) {
-
-		ofs
-			<< _peopleArray[i]->_name << "  "
-			<< _peopleArray[i]->_sex << "  "
-			<< _peopleArray[i]->_birthday << "  "
-			<< _peopleArray[i]->_workData << "  "
-			<< _peopleArray[i]->_qualification << "  "
-			<< _peopleArray[i]->_duty << "  "
-			<< _peopleArray[i]->_address << "  "
-			<< _peopleArray[i]->_directory << endl;
-	}
-	ofs.close();
-}
-
-int inSearch(int select, string data) {
-
-	int index = -1;
-
-	if (select == 1)
-	{
-		for (int i = 0; i < _attendance; i++)
-		{
-			if (_peopleArray[i]->_name == data)
-			{
-				//找到职工
-				index = i;
-
-				break;
-			}
-		}
-	}
-	else if (select == 2) {
-		for (int i = 0; i < _attendance; i++)
-		{
-			if (_peopleArray[i]->_directory == data)
-			{
-				//找到职工
-				index = i;
-
-				break;
-			}
-		}
-	}
-	else if (select == 3) {
-		for (int i = 0; i < _attendance; i++)
-		{
-			if (_peopleArray[i]->_address == data)
-			{
-				//找到职工
-				index = i;
-
-				break;
-			}
-		}
-	}
-
-
-
-	return index;
-}
-

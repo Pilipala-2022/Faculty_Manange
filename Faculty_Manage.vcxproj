@@ -19,11 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\main.cpp" />
+    <ClCompile Include="Src\main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\manage.h" />
-    <ClInclude Include="Src\people.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

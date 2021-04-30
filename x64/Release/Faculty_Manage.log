@@ -1,7 +1,16 @@
-﻿  main.cpp
+﻿  main.c
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(230,24): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 3 拥有了类型“char *”
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(230,24): warning C4313: “printf”: 格式字符串中的“%d”与“char *”类型的参数 3 冲突
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(230,24): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“char *”
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(230,24): warning C4313: “printf”: 格式字符串中的“%d”与“char *”类型的参数 4 冲突
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(219,16): warning C4101: “m”: 未引用的局部变量
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(255,16): warning C4101: “m”: 未引用的局部变量
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(308,16): warning C4101: “m”: 未引用的局部变量
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(340,16): warning C4101: “m”: 未引用的局部变量
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(373,16): warning C4101: “m”: 未引用的局部变量
   正在生成代码
-  1 of 206 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  2 of 19 functions (10.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   Faculty_Manage.vcxproj -> D:\Classes\Programming\Coding\Project\Faculty_Manage\x64\Release\Faculty_Manage.exe

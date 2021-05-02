@@ -38,7 +38,7 @@ void saveInfo(node* a);                  //信息导出
 //void deleteMessage(node* a);                // 删除信息
 //void showAllMessage(node* a);                 // 信息浏览
 //void addMessage(node* a);                 // 录入信息
-//void readData(node* a);//从文件读取信息
+//void readData(node* a);                   //从文件读取信息
 void sortMessage(node* a);
 
 void init(node* a)    //顺序表初始化
@@ -321,11 +321,9 @@ void deleteMessage(node* a)//删除信息
 
             }
         }
-        while (scanf("%d", &n) != EOF)
-        {
-            if (0 < n < k)
-                break;
-        }
+        printf("请输入要删除的教职工序号");
+        
+        scanf("%d", &n);
         for (i = d[n]; i < a->k; i++)
         {
             a->s[i] = a->s[i + 1];
@@ -352,11 +350,8 @@ void deleteMessage(node* a)//删除信息
 
             }
         }
-        while (scanf("%d", &n) != EOF)
-        {
-            if (0 < n < k)
-                break;
-        }
+        printf("请输入要删除的教职工序号");
+        scanf("%d", &n);
         for (i = d[n]; i < a->k; i++)
         {
             a->s[i] = a->s[i + 1];
@@ -386,11 +381,8 @@ void deleteMessage(node* a)//删除信息
 
 
         }
-        while (scanf("%d", &n) != EOF)
-        {
-            if (0 < n < k)
-                break;
-        }
+        printf("请输入要删除的教职工序号\n");
+        scanf("%d", &n);
         for (i = d[n]; i < a->k; i++)
         {
             a->s[i] = a->s[i + 1];

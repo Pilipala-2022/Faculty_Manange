@@ -6,8 +6,8 @@ D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(230,24): warni
 D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(219,16): warning C4101: “m”: 未引用的局部变量
 D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(255,16): warning C4101: “m”: 未引用的局部变量
 D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(308,16): warning C4101: “m”: 未引用的局部变量
-D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(340,16): warning C4101: “m”: 未引用的局部变量
-D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(373,16): warning C4101: “m”: 未引用的局部变量
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(342,16): warning C4101: “m”: 未引用的局部变量
+D:\Classes\Programming\Coding\Project\Faculty_Manage\Src\manage.h(376,16): warning C4101: “m”: 未引用的局部变量
   正在生成代码
   2 of 19 functions (10.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
